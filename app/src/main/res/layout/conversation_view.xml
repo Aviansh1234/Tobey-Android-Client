@@ -1,15 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/_2sdp"
+    android:layout_marginRight="@dimen/_2sdp"
+    android:layout_marginBottom="@dimen/_20sdp"
+    android:orientation="vertical"
+    app:cardCornerRadius="15dp">
 
-    <TextView
-        android:id="@+id/conversationText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_20sdp"
-        android:text="Loading..."
-        android:textSize="20sp"
-        android:textStyle="bold" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</LinearLayout>
+        <LinearLayout
+            android:id="@+id/llroot"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/conversationImage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/conversationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:text="Loading..."
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/createdText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Loading..." />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/conversationImage"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/llroot"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/llroot" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

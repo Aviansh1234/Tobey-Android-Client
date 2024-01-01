@@ -45,7 +45,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
     @Override
     public void onBindViewHolder(@NonNull MessageHolder holder, int position) {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        System.out.println(arr.get(position).getAuthor()+": "+arr.get(position).getMessageContent());
         if (arr.get(position).getAuthor().equals("user")){
             params.gravity = Gravity.END;
             holder.textView.setBackground(context.getResources().getDrawable(R.drawable.user_message));

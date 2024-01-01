@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 Message curr = new Message();
                 curr.setMessageContent(message.getText().toString());
                 curr.setAuthor("user");
-                serverHandler.addMessage(sessionId, curr);
+                serverHandler.addMessage(sessionId, curr, MainActivity.this);
                 message.setText("");
             }
         });
@@ -87,6 +90,26 @@ public class MainActivity extends AppCompatActivity {
         });
         messages.setAdapter(adapter);
         messages.setLayoutManager(new LinearLayoutManager(this));
+    }
+    Dialog dialog;
+    boolean isLoading = false;
+    public void showLoading(){
+        if (isLoading){
+            return;
+        }
+        isLoading=true;
+        dialog = new Dialog(this);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setContentView(R.layout.loading_animation);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+    public void stopLoading(){
+        if (!isLoading)
+            return;
+        isLoading=false;
+        dialog.dismiss();
     }
 
     public void completedChat() {

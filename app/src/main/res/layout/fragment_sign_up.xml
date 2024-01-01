@@ -7,6 +7,8 @@
     tools:context=".fragments.SignUpFragment">
 
     <EditText
+        android:background="@drawable/rounded_corners"
+        android:padding="10dp"
         android:id="@+id/signUpName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,6 +19,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:background="@drawable/rounded_corners"
+        android:padding="10dp"
         android:id="@+id/signUpEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,6 +31,8 @@
         app:layout_constraintTop_toBottomOf="@+id/signUpName" />
 
     <EditText
+        android:background="@drawable/rounded_corners"
+        android:padding="10dp"
         android:id="@+id/signUpPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

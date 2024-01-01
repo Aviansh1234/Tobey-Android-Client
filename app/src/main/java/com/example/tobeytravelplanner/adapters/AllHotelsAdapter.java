@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class AllHotelsAdapter extends RecyclerView.Adapter<AllHotelsAdapter.HotelHolder> {
 
-    ArrayList<HotelInfo>hotels;
+    ArrayList<HotelInfo> hotels;
     ArrayList<String> customDescriptions;
     ArrayList<String> hotelPrices;
     AppCompatActivity context;
@@ -42,7 +42,6 @@ public class AllHotelsAdapter extends RecyclerView.Adapter<AllHotelsAdapter.Hote
 
     @Override
     public int getItemCount() {
-        System.out.println(hotels.size());
         return hotels.size();
     }
 
@@ -53,7 +52,11 @@ public class AllHotelsAdapter extends RecyclerView.Adapter<AllHotelsAdapter.Hote
         holder.desc.setText(customDescriptions.get(position));
         holder.name.setText(hotels.get(position).getHotelName());
         holder.price.setText(hotelPrices.get(position));
-        holder.star.setText(hotels.get(position).getHotelRating()+" ★");
+        String stars = "";
+        for (int i = 0; i < hotels.get(position).getHotelRating(); i++) {
+            stars += "★";
+        }
+        holder.star.setText(stars);
         holder.hotelRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,8 +68,8 @@ public class AllHotelsAdapter extends RecyclerView.Adapter<AllHotelsAdapter.Hote
                 intent.putExtra("description", customDescriptions.get(holder.getAdapterPosition()));
                 intent.putExtra("phoneNumber", curr.getPhoneNumber());
                 String[] imagelinkarray = new String[curr.getImages().size()];
-                for (int i = 0;i<curr.getImages().size();i++){
-                    imagelinkarray[i]=curr.getImages().get(i);
+                for (int i = 0; i < curr.getImages().size(); i++) {
+                    imagelinkarray[i] = curr.getImages().get(i);
                 }
                 intent.putExtra("imageLinks", imagelinkarray);
                 intent.putExtra("price", hotelPrices.get(holder.getAdapterPosition()));
@@ -75,7 +78,7 @@ public class AllHotelsAdapter extends RecyclerView.Adapter<AllHotelsAdapter.Hote
         });
     }
 
-    public class HotelHolder extends RecyclerView.ViewHolder{
+    public class HotelHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
         CardView hotelRoot;

@@ -24,7 +24,9 @@ public class HomeScreen extends AppCompatActivity {
     Button addSession;
     ImageView logout;
     ArrayList<String>ids = new ArrayList<>();
-    conversationsAdapter adapter = new conversationsAdapter(ids, this);
+    ArrayList<String>locations = new ArrayList<>();
+    ArrayList<String>departTimes = new ArrayList<>();
+    conversationsAdapter adapter = new conversationsAdapter(ids, locations, departTimes, this);
     FirebaseHandler firebaseHandler = new FirebaseHandler();
     ServerHandler serverHandler = new ServerHandler();
 
@@ -39,7 +41,7 @@ public class HomeScreen extends AppCompatActivity {
         logout = findViewById(R.id.logout);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        firebaseHandler.updateConversations(adapter, ids);
+        firebaseHandler.updateConversations(adapter, ids, locations, departTimes);
         addSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

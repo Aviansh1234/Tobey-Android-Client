@@ -13,10 +13,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class FirebaseHandler {
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
@@ -35,6 +38,7 @@ public class FirebaseHandler {
                         if (value == null) {
                             return;
                         }
+                        mainActivity.stopLoading();
                         for (DocumentChange ds : value.getDocumentChanges()) {
                             if (ds.getType() == DocumentChange.Type.MODIFIED) {
                                 Boolean iscopmlete = (Boolean) ds.getDocument().get("complete");
@@ -90,12 +94,30 @@ public class FirebaseHandler {
     public void hotelSessionExists(String sessionId, Runnable runnable) {
         firestore.collection("users")
                 .document(FirebaseAuth.getInstance().getUid())
-                .collection(sessionId + " : hotels")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .collection(sessionId)
+                .document("1")
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if (queryDocumentSnapshots.size() != 0) {
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if ((Boolean)value.get("hotelsExist")){
+                            runnable.run();
+                        }
+                    }
+                });
+    }
+
+    public void putImage(String[] place, Runnable runnable, String[] placeholder){
+        firestore.collection("config")
+                .document("Images")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        HashMap<String, String> map = (HashMap<String, String>) documentSnapshot.get("places");
+                        if (place[0]==null)
+                            return;
+                        if(map.containsKey(place[0].toLowerCase())){
+                            placeholder[0] = map.get(place[0].toLowerCase());
                             runnable.run();
                         }
                     }
@@ -106,17 +128,18 @@ public class FirebaseHandler {
         firestore.collection("users")
                 .document(FirebaseAuth.getInstance().getUid())
                 .collection(sessionId + " : hotels")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (DocumentSnapshot ds : queryDocumentSnapshots) {
+                        if (!ans[0].isEmpty()){
+                            ans[0]+=",";
+                        }
+                        for (QueryDocumentSnapshot ds : queryDocumentSnapshots) {
                             ans[0] += (String) ds.get("itenaryId");
                             ans[0] += ",";
                             String messageContent = (String)ds.get("messageContent");
                             descs.add(messageContent.substring(messageContent.indexOf("\n")+1));
-//                            prices.add(messageContent.substring(messageContent.indexOf(":")+1,messageContent.indexOf("\n")));
-                            prices.add(messageContent.substring(messageContent.indexOf(":")+1));
+                            prices.add(messageContent.substring(messageContent.indexOf(":")+2, messageContent.indexOf("\n")));
                         }
                         ans[0] = ans[0].substring(0, ans[0].length() - 1);
                         runOnRes.run();
@@ -124,7 +147,7 @@ public class FirebaseHandler {
                 });
     }
 
-    public void updateConversations(conversationsAdapter adapter, ArrayList<String> ids) {
+    public void updateConversations(conversationsAdapter adapter, ArrayList<String> ids, ArrayList<String> locs, ArrayList<String> departTimes) {
         firestore.collection("users")
                 .document(FirebaseAuth.getInstance().getUid())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -135,8 +158,33 @@ public class FirebaseHandler {
                             return;
                         }
                         ids.clear();
-                        ids.addAll(arr);
-                        adapter.notifyDataSetChanged();
+                        locs.clear();
+                        departTimes.clear();
+                        final int[] i = {0};
+                        for (String curr : arr){
+                            firestore.collection("users")
+                                    .document(FirebaseAuth.getInstance().getUid())
+                                    .collection(curr)
+                                    .document("1")
+                                    .get()
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                            String locName = (String) documentSnapshot.get("location");
+                                            String departTime = (String) documentSnapshot.get("departTime");
+                                            if ((Boolean)documentSnapshot.get("complete")!=null&&locName.isEmpty()&&((Boolean) documentSnapshot.get("complete"))){
+                                                locName=null;
+                                                departTime = null;
+                                            }
+                                            locs.add(locName);
+                                            departTimes.add(departTime);
+                                            ids.add(curr);
+                                            i[0]++;
+                                            adapter.sortAll();
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    });
+                        }
                     }
                 });
     }

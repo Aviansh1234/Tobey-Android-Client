@@ -7,6 +7,8 @@
     tools:context=".fragments.LoginFragment">
 
     <EditText
+        android:background="@drawable/rounded_corners"
+        android:padding="10dp"
         android:id="@+id/logInEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,6 +19,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:background="@drawable/rounded_corners"
+        android:padding="10dp"
         android:id="@+id/logInPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

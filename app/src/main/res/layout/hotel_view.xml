@@ -29,7 +29,8 @@
 
         <TextView
             android:id="@+id/starRating"
-            android:text="4 ★"
+            android:text="★★★★"
+            android:textColor="@color/orange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

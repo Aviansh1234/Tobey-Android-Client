@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.tobeytravelplanner.FirstScreen;
 import com.example.tobeytravelplanner.HomeScreen;
 import com.example.tobeytravelplanner.R;
 import com.example.tobeytravelplanner.objects.User;
@@ -67,7 +68,7 @@ public class SignUpFragment extends Fragment {
                                                 @Override
                                                 public void onSuccess(Void unused) {
                                                     Toast.makeText(context, "Account Create Successfully", Toast.LENGTH_SHORT).show();
-                                                    context.startActivity(new Intent(context, HomeScreen.class));
+                                                    context.startActivity(new Intent(context, FirstScreen.class));
                                                     context.finish();
                                                 }
                                             });

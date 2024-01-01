@@ -45,6 +45,7 @@ public class AllHotelsScreen extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         dialog = new Dialog(this);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.setContentView(R.layout.loading_animation);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
@@ -58,6 +59,7 @@ public class AllHotelsScreen extends AppCompatActivity {
             @Override
             public void run() {
                 ServerHandler serverHandler = new ServerHandler();
+                hotelInfos.clear();
                 Runnable runnable1 = new Runnable() {
                     @Override
                     public void run() {

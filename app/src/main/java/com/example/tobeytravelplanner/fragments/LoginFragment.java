@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.tobeytravelplanner.FirstScreen;
 import com.example.tobeytravelplanner.HomeScreen;
 import com.example.tobeytravelplanner.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -57,7 +58,7 @@ public class LoginFragment extends Fragment {
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-                                    context.startActivity(new Intent(context, HomeScreen.class));
+                                    context.startActivity(new Intent(context, FirstScreen.class));
                                     context.finish();
                                 }
                             })
